@@ -1,5 +1,6 @@
 package com.sidd.leave.employeemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sidd.leave.employeemanagement.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -40,11 +41,13 @@ public class User {
 //    leaves applied by the user
     @ToString.Exclude
     @OneToMany(mappedBy = "requestedBy", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<LeaveRequest> leaveRequests;
 
 //    leaves approved by the user
     @ToString.Exclude
     @OneToMany(mappedBy = "approver")
+    @JsonIgnore
     private List<LeaveRequest> reviewedRequests;
 
     // ---------------- Hierarchy Mappings ----------------

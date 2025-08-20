@@ -1,5 +1,6 @@
 package com.sidd.leave.employeemanagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -19,5 +20,6 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     @ToString.Exclude
+    @JsonIgnore
     private List<User> users;
 }
