@@ -44,8 +44,8 @@ public class User {
 
 //    leaves approved by the user
     @ToString.Exclude
-    @OneToMany(mappedBy = "approvedBy")
-    private List<LeaveRequest> approvedRequests;
+    @OneToMany(mappedBy = "approver")
+    private List<LeaveRequest> reviewedRequests;
 
     // ---------------- Hierarchy Mappings ----------------
 

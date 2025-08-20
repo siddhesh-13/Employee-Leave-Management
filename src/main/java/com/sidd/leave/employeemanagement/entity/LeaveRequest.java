@@ -46,16 +46,17 @@ public class LeaveRequest {
         }
     }
 
+//    save file path/url
     @Column(name = "file_path")
     private String filePath;
 
     @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "requested_by", nullable = false)
-    private User requestedBy;
+    private User requestedBy;       //leave requested by
 
     @ToString.Exclude
     @ManyToOne
-    @JoinColumn(name = "approved_by")
-    private User approvedBy;
+    @JoinColumn(name = "approver_id")
+    private User approver;        //leave approved/rejected by
 }
