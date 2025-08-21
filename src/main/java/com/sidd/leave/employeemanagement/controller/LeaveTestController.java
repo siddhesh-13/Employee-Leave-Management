@@ -1,5 +1,6 @@
 package com.sidd.leave.employeemanagement.controller;
 
+import com.sidd.leave.employeemanagement.dto.LeaveRequestDto;
 import com.sidd.leave.employeemanagement.entity.LeaveRequest;
 import com.sidd.leave.employeemanagement.entity.User;
 import com.sidd.leave.employeemanagement.repository.UserRepository;
@@ -7,6 +8,8 @@ import com.sidd.leave.employeemanagement.service.LeaveRequestServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -25,6 +28,14 @@ public class LeaveTestController {
 
         return ResponseEntity.ok(newLeave);
 
+    }
+
+    @GetMapping("/requests/{userId}")
+    public ResponseEntity<List<LeaveRequestDto>> getMyLeaveRequests(@PathVariable Long userId){
+
+        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getMyLeaves(userId);
+
+        return ResponseEntity.ok(leaveRequestDtos);
     }
 
 }
