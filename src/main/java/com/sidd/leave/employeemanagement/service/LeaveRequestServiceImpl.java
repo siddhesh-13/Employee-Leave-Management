@@ -4,6 +4,7 @@ import com.sidd.leave.employeemanagement.config.ModelMapperConfig;
 import com.sidd.leave.employeemanagement.dto.LeaveRequestDto;
 import com.sidd.leave.employeemanagement.entity.LeaveRequest;
 import com.sidd.leave.employeemanagement.entity.User;
+import com.sidd.leave.employeemanagement.enums.LeaveStatus;
 import com.sidd.leave.employeemanagement.repository.LeaveRequestRepository;
 import com.sidd.leave.employeemanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -54,6 +55,35 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
         return leaveRequests.stream()
                 .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDto.class))
                 .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public List<LeaveRequestDto> getPendingLeavesForManager(Long userId) {
+        List<LeaveRequest> leaveRequests= leaveRequestRepository.findByApprover_IdAndLeaveStatus(userId, LeaveStatus.PENDING);
+
+        return leaveRequests.stream()
+                .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDto.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public LeaveRequestDto updateLeaveStatus(Long userId, Long reqId, LeaveStatus leaveStatus) {
+        LeaveRequest leaveRequest= leaveRequestRepository.findById(reqId).orElseThrow();
+
+        if (!leaveRequest.getApprover().getId().equals(userId)){
+            throw new RuntimeException("User not allowed to update requests");
+        }
+
+        if (leaveStatus.equals(LeaveStatus.APPROVED)){
+            leaveRequest.setLeaveStatus(LeaveStatus.APPROVED);
+        } else if (leaveStatus.equals(LeaveStatus.REJECTED)){
+            leaveRequest.setLeaveStatus(LeaveStatus.REJECTED);
+        } else {
+            throw new RuntimeException("Invalid action");
+        }
+
+        return modelMapper.map( leaveRequestRepository.save(leaveRequest), LeaveRequestDto.class);
 
     }
 }
