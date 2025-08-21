@@ -24,17 +24,25 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
     private ModelMapper modelMapper;
 
     @Override
-    public LeaveRequest applyLeave(User user, LeaveRequest leaveRequest) {
-//        User user= userRepository.findById(userId).orElseThrow();
+    public LeaveRequestDto applyLeave(User user, LeaveRequestDto leaveRequestDto) {
 
-//        leaveRequest.setStartDate(LocalDate.now());
-//        leaveRequest.setEndDate(LocalDate.now().plusDays(2));
+        LeaveRequest leaveRequest=modelMapper.map(leaveRequestDto, LeaveRequest.class);
 
         leaveRequest.setRequestedBy(user);
 
+        if (user.getManager()!=null){
+            leaveRequest.setApprover(user.getManager());
+        } else if(user.getHr()!=null) {
+            leaveRequest.setApprover(user.getHr());
+        }else {
+            throw new RuntimeException("Approver doesn't exists for this employee");
+        }
+
+
+
         LeaveRequest newLeave= leaveRequestRepository.save(leaveRequest);
 
-        return newLeave;
+        return modelMapper.map(newLeave, LeaveRequestDto.class);
 
     }
 

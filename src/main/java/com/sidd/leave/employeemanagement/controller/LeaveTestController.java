@@ -20,11 +20,11 @@ public class LeaveTestController {
     private UserRepository userRepository;
 
     @PostMapping("/apply/{userId}")
-    public ResponseEntity<LeaveRequest> applyLeaveReq(@PathVariable Long userId, @RequestBody LeaveRequest leaveRequest){
+    public ResponseEntity<LeaveRequestDto> applyLeaveReq(@PathVariable Long userId, @RequestBody LeaveRequestDto leaveRequestDto){
 
         User user=userRepository.findById(userId).orElseThrow();
 
-        LeaveRequest newLeave= leaveRequestService.applyLeave(user,leaveRequest);
+        LeaveRequestDto newLeave= leaveRequestService.applyLeave(user,leaveRequestDto);
 
         return ResponseEntity.ok(newLeave);
 

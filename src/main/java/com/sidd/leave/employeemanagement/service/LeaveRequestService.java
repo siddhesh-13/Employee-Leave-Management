@@ -7,7 +7,7 @@ import com.sidd.leave.employeemanagement.entity.User;
 import java.util.List;
 
 public interface LeaveRequestService {
-    LeaveRequest applyLeave(User user, LeaveRequest leaveRequest);
+    LeaveRequestDto applyLeave(User user, LeaveRequestDto leaveRequestDto);
 //    List<LeaveRequest> findByUserId(Long userId);
     List<LeaveRequestDto> getMyLeaves(Long userId);
 }

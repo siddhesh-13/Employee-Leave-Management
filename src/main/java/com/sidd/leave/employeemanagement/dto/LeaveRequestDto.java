@@ -1,5 +1,6 @@
 package com.sidd.leave.employeemanagement.dto;
 
+import com.sidd.leave.employeemanagement.entity.User;
 import com.sidd.leave.employeemanagement.enums.LeaveStatus;
 import com.sidd.leave.employeemanagement.enums.LeaveType;
 import lombok.Data;
@@ -16,4 +17,7 @@ public class LeaveRequestDto {
     private String description;
     private LeaveStatus leaveStatus;
     private LocalDateTime appliedAt;
+    private String file_path;
+//    private User requestedBy;
+    private String approver;
 }
