@@ -14,7 +14,7 @@ public interface LeaveRequestRepository extends JpaRepository<LeaveRequest, Long
     List<LeaveRequest> findByApprover_IdAndLeaveStatus(Long userId, LeaveStatus leaveStatus);
     List<LeaveRequest> findByApprover_Id(Long managerId);
 
-
+//    Employee leaves under HR's managers
     @Query("SELECT l FROM LeaveRequest l WHERE l.approver.hr.id= :hrId")
     List<LeaveRequest> findAllByHr(@Param("hrId") Long hrId);
 }

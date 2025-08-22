@@ -39,8 +39,6 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
             throw new RuntimeException("Approver doesn't exists for this employee");
         }
 
-
-
         LeaveRequest newLeave= leaveRequestRepository.save(leaveRequest);
 
         return modelMapper.map(newLeave, LeaveRequestDto.class);
@@ -88,8 +86,8 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
     }
 
     @Override
-    public List<LeaveRequestDto> getAllLeavesForManager(Long managerId) {
-        List<LeaveRequest> leaveRequests = leaveRequestRepository.findByApprover_Id(managerId);
+    public List<LeaveRequestDto> getAllLeavesForApprover(Long approverId) {
+        List<LeaveRequest> leaveRequests = leaveRequestRepository.findByApprover_Id(approverId);
 
         return leaveRequests.stream()
                 .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDto.class))

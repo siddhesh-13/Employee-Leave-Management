@@ -64,17 +64,17 @@ public class LeaveTestController {
 
 //    -------------  TO GET ALL REQUEST ASSIGNED TO MANAGER  ---------------
     @GetMapping("/manager/{managerId}")
-    public ResponseEntity<List<LeaveRequestDto>> getAllLeavesAssignedToManager(@PathVariable Long managerId){
+    public ResponseEntity<List<LeaveRequestDto>> getAllLeavesForManager(@PathVariable Long managerId){
 
-        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeavesForManager(managerId);
+        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeavesForApprover(managerId);
 
         return ResponseEntity.ok(leaveRequestDtos);
     }
 
-//    -------------  TO GET ALL REQUEST UNDER HR   ---------------
+//    -------------  TO GET ALL REQUEST OF Employee leaves under HR's managers   ---------------
 
-    @GetMapping("/hr/{hrId}")
-    public ResponseEntity<List<LeaveRequestDto>> getAllLeaveForHr(@PathVariable Long hrId){
+    @GetMapping("/underHr/{hrId}")
+    public ResponseEntity<List<LeaveRequestDto>> getAllLeaveUnderHr(@PathVariable Long hrId){
 
         List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeaveForHr(hrId);
 
@@ -90,5 +90,14 @@ public class LeaveTestController {
         LeaveRequestDto leaveRequestDto= leaveRequestService.updateLeaveStatus(hrId, reqId, leaveStatus);
 
         return ResponseEntity.ok(leaveRequestDto);
+    }
+
+    //    -------------  TO GET ALL REQUEST ASSIGNED TO HR  ---------------
+    @GetMapping("/hr/{hrId}")
+    public ResponseEntity<List<LeaveRequestDto>> getAllLeavesForHR(@PathVariable Long hrId){
+
+        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeavesForApprover(hrId);
+
+        return ResponseEntity.ok(leaveRequestDtos);
     }
 }

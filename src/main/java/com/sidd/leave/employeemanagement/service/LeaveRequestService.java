@@ -12,14 +12,14 @@ public interface LeaveRequestService {
 //    List<LeaveRequest> findByUserId(Long userId);
     List<LeaveRequestDto> getMyLeaves(Long userId);
 
-//  To get All pending Leaves in queue
+//  To get All pending Leaves under the Manager queue
     List<LeaveRequestDto> getPendingLeavesForManager(Long userId);
 
 //    Manager/HR can update the leave status
     LeaveRequestDto updateLeaveStatus(Long userId, Long reqId, LeaveStatus leaveStatus);
 
-//    All leaves assigned to manager
-    List<LeaveRequestDto> getAllLeavesForManager(Long managerId);
+//    All leaves assigned to Manager/HR
+    List<LeaveRequestDto> getAllLeavesForApprover(Long approverId);
 
     List<LeaveRequestDto> getAllLeaveForHr(Long hrId);
 }
