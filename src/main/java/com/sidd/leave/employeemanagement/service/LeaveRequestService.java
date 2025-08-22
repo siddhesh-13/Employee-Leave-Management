@@ -15,7 +15,7 @@ public interface LeaveRequestService {
 //  To get All pending Leaves in queue
     List<LeaveRequestDto> getPendingLeavesForManager(Long userId);
 
-//    Manager can update the leave status
+//    Manager/HR can update the leave status
     LeaveRequestDto updateLeaveStatus(Long userId, Long reqId, LeaveStatus leaveStatus);
 
 //    All leaves assigned to manager

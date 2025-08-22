@@ -51,12 +51,12 @@ public class LeaveTestController {
     }
 
 //    -------------  TO UPDATE THE LEAVE REQUEST BY MANAGER  ---------------
-    @PostMapping("/update/{reqId}/action")
+    @PostMapping("/updateManager/{reqId}/action")
     public ResponseEntity<LeaveRequestDto> updateLeaveStatus(@PathVariable Long reqId,
                                                              @RequestBody LeaveStatus leaveStatus,
-                                                             @RequestParam Long userId){
+                                                             @RequestParam Long managerId){
 
-        LeaveRequestDto leaveRequestDto= leaveRequestService.updateLeaveStatus(userId, reqId, leaveStatus);
+        LeaveRequestDto leaveRequestDto= leaveRequestService.updateLeaveStatus(managerId, reqId, leaveStatus);
 
         return ResponseEntity.ok(leaveRequestDto);
     }
@@ -79,5 +79,16 @@ public class LeaveTestController {
         List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeaveForHr(hrId);
 
         return ResponseEntity.ok(leaveRequestDtos);
+    }
+
+    //    -------------  TO UPDATE THE LEAVE REQUEST BY HR  ---------------
+    @PostMapping("/updateHR/{reqId}/action")
+    public ResponseEntity<LeaveRequestDto> updateLeaveStatusByHR(@PathVariable Long reqId,
+                                                             @RequestBody LeaveStatus leaveStatus,
+                                                             @RequestParam Long hrId){
+
+        LeaveRequestDto leaveRequestDto= leaveRequestService.updateLeaveStatus(hrId, reqId, leaveStatus);
+
+        return ResponseEntity.ok(leaveRequestDto);
     }
 }
