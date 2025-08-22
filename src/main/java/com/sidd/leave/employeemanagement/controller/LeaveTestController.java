@@ -20,6 +20,8 @@ public class LeaveTestController {
     private LeaveRequestServiceImpl leaveRequestService;
     private UserRepository userRepository;
 
+
+//  -------------  TO APPLY LEAVE  ---------------
     @PostMapping("/apply/{userId}")
     public ResponseEntity<LeaveRequestDto> applyLeaveReq(@PathVariable Long userId, @RequestBody LeaveRequestDto leaveRequestDto){
 
@@ -31,6 +33,7 @@ public class LeaveTestController {
 
     }
 
+//    -------------  TO GET ALL LEAVE REQUESTS FOR AN EMPLOYEE  ---------------
     @GetMapping("/requests/{userId}")
     public ResponseEntity<List<LeaveRequestDto>> getMyLeaveRequests(@PathVariable Long userId){
 
@@ -39,6 +42,7 @@ public class LeaveTestController {
         return ResponseEntity.ok(leaveRequestDtos);
     }
 
+//    -------------  GET ALL PENDING REQUESTS IN QUEUE FOR MANAGER  ---------------
     @GetMapping("/pending/{userId}")
     public ResponseEntity<List<LeaveRequestDto>> getPendingLeaveForManager(@PathVariable Long userId){
         List<LeaveRequestDto> leaveRequestDtos = leaveRequestService.getPendingLeavesForManager(userId);
@@ -46,6 +50,7 @@ public class LeaveTestController {
         return ResponseEntity.ok(leaveRequestDtos);
     }
 
+//    -------------  TO UPDATE THE LEAVE REQUEST BY MANAGER  ---------------
     @PostMapping("/update/{reqId}/action")
     public ResponseEntity<LeaveRequestDto> updateLeaveStatus(@PathVariable Long reqId,
                                                              @RequestBody LeaveStatus leaveStatus,
@@ -55,4 +60,15 @@ public class LeaveTestController {
 
         return ResponseEntity.ok(leaveRequestDto);
     }
+
+
+//    -------------  TO GET ALL REQUEST ASSIGNED TO MANAGER  ---------------
+    @GetMapping("/manager/{managerId}")
+    public ResponseEntity<List<LeaveRequestDto>> getAllLeavesAssignedToManager(@PathVariable Long managerId){
+
+        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeavesForManager(managerId);
+
+        return ResponseEntity.ok(leaveRequestDtos);
+    }
+
 }
