@@ -71,4 +71,13 @@ public class LeaveTestController {
         return ResponseEntity.ok(leaveRequestDtos);
     }
 
+//    -------------  TO GET ALL REQUEST UNDER HR   ---------------
+
+    @GetMapping("/hr/{hrId}")
+    public ResponseEntity<List<LeaveRequestDto>> getAllLeaveForHr(@PathVariable Long hrId){
+
+        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getAllLeaveForHr(hrId);
+
+        return ResponseEntity.ok(leaveRequestDtos);
+    }
 }

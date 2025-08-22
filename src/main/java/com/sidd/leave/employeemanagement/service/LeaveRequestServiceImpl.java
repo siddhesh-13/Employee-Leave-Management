@@ -95,4 +95,15 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
                 .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDto.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<LeaveRequestDto> getAllLeaveForHr(Long hrId) {
+        List<LeaveRequest> leaveRequests= leaveRequestRepository.findAllByHr(hrId);
+
+        return leaveRequests.stream()
+                .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDto.class))
+                .collect(Collectors.toList());
+    }
+
+
 }

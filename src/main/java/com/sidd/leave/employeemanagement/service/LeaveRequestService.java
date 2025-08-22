@@ -20,4 +20,6 @@ public interface LeaveRequestService {
 
 //    All leaves assigned to manager
     List<LeaveRequestDto> getAllLeavesForManager(Long managerId);
+
+    List<LeaveRequestDto> getAllLeaveForHr(Long hrId);
 }
