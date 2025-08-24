@@ -1,11 +1,13 @@
 package com.sidd.leave.employeemanagement.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sidd.leave.employeemanagement.enums.Gender;
 import com.sidd.leave.employeemanagement.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -29,6 +31,13 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+    private Gender gender;
+
+//    @Column(nullable = false)
+    private LocalDate birthDate;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
