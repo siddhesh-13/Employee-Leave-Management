@@ -18,6 +18,6 @@ public class LeaveRequestDto {
     private LeaveStatus leaveStatus;
     private LocalDateTime appliedAt;
     private String file_path;
-//    private User requestedBy;
+
     private String approver;
 }
