@@ -72,4 +72,18 @@ public class User {
     @ToString.Exclude
     private List<User> managersUnderHR; // Managers under this HR
 
+//  Leave Balance Mapping
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LeaveBalance> leaveBalances;
+
+    public void addLeaveBalance(LeaveBalance balance) {
+        leaveBalances.add(balance);
+        balance.setUser(this); // keep both sides in sync
+    }
+
+    public void removeLeaveBalance(LeaveBalance balance) {
+        leaveBalances.remove(balance);
+        balance.setUser(null); // avoid stale references
+    }
+
 }
