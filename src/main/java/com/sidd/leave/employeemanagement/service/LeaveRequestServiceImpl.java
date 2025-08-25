@@ -77,6 +77,16 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
     }
 
     @Override
+    public List<LeaveRequestDto> getMyPendingLeaves(Long userId) {
+        List<LeaveRequest> leaveRequests= leaveRequestRepository.findByRequestedBy_IdAndLeaveStatus(userId, LeaveStatus.PENDING);
+
+        return leaveRequests.stream()
+                            .map(leaveRequest -> modelMapper.map(leaveRequest, LeaveRequestDto.class))
+                            .collect(Collectors.toList());
+    }
+
+
+    @Override
     public List<LeaveRequestDto> getPendingLeavesForManager(Long userId) {
         List<LeaveRequest> leaveRequests= leaveRequestRepository.findByApprover_IdAndLeaveStatus(userId, LeaveStatus.PENDING);
 

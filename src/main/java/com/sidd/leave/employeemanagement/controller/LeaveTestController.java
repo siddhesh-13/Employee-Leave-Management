@@ -42,7 +42,16 @@ public class LeaveTestController {
         return ResponseEntity.ok(leaveRequestDtos);
     }
 
-//    -------------  GET ALL PENDING REQUESTS IN QUEUE FOR MANAGER  ---------------
+    //    -------------  TO GET ALL PENDING LEAVE REQUESTS FOR AN EMPLOYEE  ---------------
+    @GetMapping("/pendingRequests/{userId}")
+    public ResponseEntity<List<LeaveRequestDto>> getMyPendingLeaves(@PathVariable Long userId){
+
+        List<LeaveRequestDto> leaveRequestDtos= leaveRequestService.getMyPendingLeaves(userId);
+
+        return ResponseEntity.ok(leaveRequestDtos);
+    }
+
+//    -------------  GET ALL PENDING REQUESTS IN the QUEUE FOR MANAGER  ---------------
     @GetMapping("/pending/{userId}")
     public ResponseEntity<List<LeaveRequestDto>> getPendingLeaveForManager(@PathVariable Long userId){
         List<LeaveRequestDto> leaveRequestDtos = leaveRequestService.getPendingLeavesForManager(userId);

@@ -12,6 +12,8 @@ public interface LeaveRequestService {
 //    List<LeaveRequest> findByUserId(Long userId);
     List<LeaveRequestDto> getMyLeaves(Long userId);
 
+    List<LeaveRequestDto> getMyPendingLeaves(Long userId);
+
 //  To get All pending Leaves under the Manager queue
     List<LeaveRequestDto> getPendingLeavesForManager(Long userId);
 
