@@ -23,8 +23,11 @@ public class LeaveBalanceServiceImpl implements LeaveBalanceService{
     public List<LeaveBalanceDto> getLeaveBalanceById(Long userId) {
          List<LeaveBalance> leaveBalances= leaveBalanceRepository.findByUser_Id(userId);
 
+
          return leaveBalances.stream()
                              .map(leaveBalance -> modelMapper.map(leaveBalance, LeaveBalanceDto.class))
                              .collect(Collectors.toList());
     }
+
+
 }

@@ -51,7 +51,7 @@ public class LeaveTestController {
     }
 
 //    -------------  TO UPDATE THE LEAVE REQUEST BY MANAGER  ---------------
-    @PostMapping("/updateManager/{reqId}/action")
+    @PutMapping("/updateManager/{reqId}/action")
     public ResponseEntity<LeaveRequestDto> updateLeaveStatus(@PathVariable Long reqId,
                                                              @RequestBody LeaveStatus leaveStatus,
                                                              @RequestParam Long managerId){
