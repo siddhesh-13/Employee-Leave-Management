@@ -43,6 +43,10 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
             throw new IllegalArgumentException("Cannot apply leave for past date");
         }
 
+        if (leaveRequest.getStartDate().isAfter(LocalDate.now().plusMonths(3))){
+            throw new IllegalArgumentException("Cannot apply leave more than 3 months in advance");
+        }
+
         if (leaveBalance.getRemainingBalance() >= leaveDays){
             leaveRequest.setRequestedBy(user);
 
