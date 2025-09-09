@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.List;
@@ -38,7 +39,11 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
 //      Total days of leave applied by user
         int leaveDays= (int) ChronoUnit.DAYS.between(leaveRequest.getStartDate(),leaveRequest.getEndDate()) +1; // +1 to include both dates
 
-        if (leaveBalance.getRemainingBalance() >= leaveDays ){
+        if (leaveRequest.getStartDate().isBefore(LocalDate.now()) ){
+            throw new IllegalArgumentException("Cannot apply leave for past date");
+        }
+
+        if (leaveBalance.getRemainingBalance() >= leaveDays){
             leaveRequest.setRequestedBy(user);
 
             if (user.getManager()!=null){
@@ -103,21 +108,25 @@ public class LeaveRequestServiceImpl implements LeaveRequestService{
             throw new RuntimeException("User not allowed to update requests");
         }
 
-        if (leaveStatus.equals(LeaveStatus.APPROVED)){
-            leaveRequest.setLeaveStatus(LeaveStatus.APPROVED);
-            int leaveDays= (int) ChronoUnit.DAYS.between(leaveRequest.getStartDate(), leaveRequest.getEndDate()) + 1;
-            User user = leaveRequest.getRequestedBy();
-            LeaveBalance leaveBalance= leaveBalanceRepository.findByUser_IdAndLeaveType(user.getId(), leaveRequest.getLeaveType());
-            leaveBalance.setRemainingBalance(leaveBalance.getRemainingBalance()-leaveDays);
-            leaveBalanceRepository.save(leaveBalance);
-        }
-        else if (leaveStatus.equals(LeaveStatus.REJECTED)){
-            leaveRequest.setLeaveStatus(LeaveStatus.REJECTED);
+        if (leaveRequest.getLeaveStatus().equals(LeaveStatus.PENDING)) {
+
+            if (leaveStatus.equals(LeaveStatus.APPROVED)) {
+                leaveRequest.setLeaveStatus(LeaveStatus.APPROVED);
+                int leaveDays = (int) ChronoUnit.DAYS.between(leaveRequest.getStartDate(), leaveRequest.getEndDate()) + 1;
+                User user = leaveRequest.getRequestedBy();
+                LeaveBalance leaveBalance = leaveBalanceRepository.findByUser_IdAndLeaveType(user.getId(), leaveRequest.getLeaveType());
+                leaveBalance.setRemainingBalance(leaveBalance.getRemainingBalance() - leaveDays);
+                leaveBalanceRepository.save(leaveBalance);
+            } else if (leaveStatus.equals(LeaveStatus.REJECTED)) {
+                leaveRequest.setLeaveStatus(LeaveStatus.REJECTED);
+            } else {
+                throw new RuntimeException("Invalid action");
+            }
+
         }
         else {
-            throw new RuntimeException("Invalid action");
+            throw new RuntimeException("Leave status already updated");
         }
-
         return modelMapper.map( leaveRequestRepository.save(leaveRequest), LeaveRequestDto.class);
 
     }
