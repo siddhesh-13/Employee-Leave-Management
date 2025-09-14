@@ -44,7 +44,7 @@ public class User {
     private UserStatus userStatus=UserStatus.PENDING;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "role_id")
     private Role role;
 
 //    leaves applied by the user
