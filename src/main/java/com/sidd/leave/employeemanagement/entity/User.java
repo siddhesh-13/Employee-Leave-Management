@@ -33,10 +33,10 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private Gender gender;
 
-//    @Column(nullable = false)
+    @Column(nullable = false)
     private LocalDate birthDate;
 
     @Column(nullable = false)
