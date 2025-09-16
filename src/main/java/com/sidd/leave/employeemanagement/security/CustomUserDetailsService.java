@@ -3,10 +3,13 @@ package com.sidd.leave.employeemanagement.security;
 import com.sidd.leave.employeemanagement.entity.User;
 import com.sidd.leave.employeemanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Service
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
