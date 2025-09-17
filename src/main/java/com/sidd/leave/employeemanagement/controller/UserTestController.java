@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
@@ -25,5 +27,12 @@ public class UserTestController {
     public ResponseEntity<String> profile(){
         return ResponseEntity.ok("Welcome User");
     }
+
+    @GetMapping("/pending")
+    public ResponseEntity<List<UserResponseDto>> pendingUsers(){
+        List<UserResponseDto> userResponseDtos = userService.getAllPendingUsers();
+        return ResponseEntity.ok(userResponseDtos);
+    }
+
 
 }

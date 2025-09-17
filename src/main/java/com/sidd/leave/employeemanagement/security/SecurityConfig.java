@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/profile").authenticated()
+                        .requestMatchers("/user/pending").hasAnyRole("SUPERHR" ,"HR")
                         .anyRequest().permitAll());
 
         return httpSecurity.build();
