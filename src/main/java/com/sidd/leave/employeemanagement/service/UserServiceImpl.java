@@ -2,15 +2,20 @@ package com.sidd.leave.employeemanagement.service;
 
 import com.sidd.leave.employeemanagement.dto.UserRequestDto;
 import com.sidd.leave.employeemanagement.dto.UserResponseDto;
+import com.sidd.leave.employeemanagement.entity.Role;
 import com.sidd.leave.employeemanagement.entity.User;
 import com.sidd.leave.employeemanagement.enums.UserStatus;
 import com.sidd.leave.employeemanagement.repository.RoleRepository;
 import com.sidd.leave.employeemanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.RoleNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,6 +44,39 @@ public class UserServiceImpl implements UserService{
         return users.stream()
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
+
+    }
+
+    public User getApprovingHr(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email=auth.getName();
+        return userRepository.findByEmail(email).orElseThrow(() ->{
+            return new UsernameNotFoundException("Approver not found");
+        });
+    }
+
+    @Override
+    public UserResponseDto updateUser(Long id, UserStatus userStatus, String roleName) {
+        User user = userRepository.findById(id).orElseThrow(()->{
+            return new UsernameNotFoundException("User not found");
+        });
+
+        Role role= roleRepository.findByRoleName(roleName).orElseThrow(()->{
+            return new RuntimeException("Role not found");
+        });
+
+        user.setUserStatus(userStatus);
+        if (user.getUserStatus().equals(UserStatus.ACTIVE)){
+            user.setRole(role);
+            User newUser=getApprovingHr();
+            user.setHr(newUser);
+        }else if (user.getUserStatus().equals(UserStatus.REJECTED)){
+            user.setRole(null);
+        }
+
+        userRepository.save(user);
+
+        return modelMapper.map(user,UserResponseDto.class);
 
     }
 

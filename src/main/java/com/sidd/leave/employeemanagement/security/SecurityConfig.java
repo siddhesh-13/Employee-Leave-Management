@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/profile").authenticated()
                         .requestMatchers("/user/pending").hasAnyRole("SUPERHR" ,"HR")
+                        .requestMatchers("/user/update/{id}").hasAnyRole("SUPERHR" ,"HR")
                         .anyRequest().permitAll());
 
         return httpSecurity.build();

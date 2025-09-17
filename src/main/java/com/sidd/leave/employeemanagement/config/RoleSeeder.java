@@ -14,10 +14,10 @@ public class RoleSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        seedRole("SUPER_HR");
-        seedRole("HR");
-        seedRole("MANAGER");
-        seedRole("EMPLOYEE");
+        seedRole("ROLE_SUPERHR");
+        seedRole("ROLE_HR");
+        seedRole("ROLE_MANAGER");
+        seedRole("ROLE_EMPLOYEE");
 
     }
 
