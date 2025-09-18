@@ -15,4 +15,6 @@ public interface UserService {
 
 //    Assign role and update status
     UserResponseDto updateUser(Long id, UserStatus userStatus, String roleName);
+
+    void assignManager(Long userId, Long managerId);
 }

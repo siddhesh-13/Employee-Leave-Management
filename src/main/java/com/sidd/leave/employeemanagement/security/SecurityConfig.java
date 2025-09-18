@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers("/user/profile").authenticated()
                         .requestMatchers("/user/pending").hasAnyRole("SUPERHR" ,"HR")
                         .requestMatchers("/user/update/{id}").hasAnyRole("SUPERHR" ,"HR")
+                        .requestMatchers("/user/{userId}/assign-manager").hasAnyRole("SUPERHR" ,"HR")
                         .anyRequest().permitAll());
 
         return httpSecurity.build();

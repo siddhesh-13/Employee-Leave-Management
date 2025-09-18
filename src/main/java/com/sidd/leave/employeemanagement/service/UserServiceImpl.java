@@ -61,22 +61,41 @@ public class UserServiceImpl implements UserService{
             return new UsernameNotFoundException("User not found");
         });
 
-        Role role= roleRepository.findByRoleName(roleName).orElseThrow(()->{
-            return new RuntimeException("Role not found");
-        });
-
         user.setUserStatus(userStatus);
+
         if (user.getUserStatus().equals(UserStatus.ACTIVE)){
+            Role role= roleRepository.findByRoleName(roleName).orElseThrow(()->{
+                return new RuntimeException("Role not found");
+            });
             user.setRole(role);
             User newUser=getApprovingHr();
             user.setHr(newUser);
-        }else if (user.getUserStatus().equals(UserStatus.REJECTED)){
-            user.setRole(null);
         }
 
         userRepository.save(user);
 
         return modelMapper.map(user,UserResponseDto.class);
+
+    }
+
+    @Override
+    public void assignManager(Long userId, Long managerId) {
+
+        User user= userRepository.findById(userId).orElseThrow(()->{
+            return new UsernameNotFoundException("User not found");
+        });
+
+        Role role= roleRepository.findById(4).orElseThrow();
+
+        if (user.getUserStatus().equals(UserStatus.ACTIVE) && user.getManager()==null && user.getRole().equals(role)){
+            User manager= userRepository.findById(managerId).orElseThrow(()->{
+                return new UsernameNotFoundException("user not found");
+            });
+
+            user.setManager(manager);
+            userRepository.save(user);
+
+        }
 
     }
 

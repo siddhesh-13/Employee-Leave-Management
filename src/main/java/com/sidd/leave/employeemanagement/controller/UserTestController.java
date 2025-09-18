@@ -1,5 +1,6 @@
 package com.sidd.leave.employeemanagement.controller;
 
+import com.sidd.leave.employeemanagement.dto.AssignManagerRequest;
 import com.sidd.leave.employeemanagement.dto.UserRequestDto;
 import com.sidd.leave.employeemanagement.dto.UserResponseDto;
 import com.sidd.leave.employeemanagement.entity.Role;
@@ -55,5 +56,12 @@ public class UserTestController {
         return ResponseEntity.ok(userResponseDto);
     }
 
+    @PutMapping("/{userId}/assign-manager")
+    public ResponseEntity<String> assignManager(@PathVariable Long userId, @RequestBody AssignManagerRequest request){
+
+        userService.assignManager(userId, request.getManagerId());
+
+        return ResponseEntity.ok("Manager assigned");
+    }
 
 }
