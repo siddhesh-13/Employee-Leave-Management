@@ -2,9 +2,15 @@ package com.sidd.leave.employeemanagement.service;
 
 import com.sidd.leave.employeemanagement.dto.UserRequestDto;
 import com.sidd.leave.employeemanagement.dto.UserResponseDto;
+import com.sidd.leave.employeemanagement.entity.LeaveBalance;
+import com.sidd.leave.employeemanagement.entity.LeavePolicy;
 import com.sidd.leave.employeemanagement.entity.Role;
 import com.sidd.leave.employeemanagement.entity.User;
+import com.sidd.leave.employeemanagement.enums.Gender;
+import com.sidd.leave.employeemanagement.enums.LeaveType;
 import com.sidd.leave.employeemanagement.enums.UserStatus;
+import com.sidd.leave.employeemanagement.repository.LeaveBalanceRepository;
+import com.sidd.leave.employeemanagement.repository.LeavePolicyRepository;
 import com.sidd.leave.employeemanagement.repository.RoleRepository;
 import com.sidd.leave.employeemanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -27,6 +33,8 @@ public class UserServiceImpl implements UserService{
     private RoleRepository roleRepository;
     private ModelMapper modelMapper;
     private PasswordEncoder passwordEncoder;
+    private LeavePolicyRepository leavePolicyRepository;
+    private LeaveBalanceRepository leaveBalanceRepository;
 
     @Override
     public UserResponseDto registerUser(UserRequestDto userRequestDto) {
@@ -55,6 +63,33 @@ public class UserServiceImpl implements UserService{
         });
     }
 
+//    Assign default Leave balances to user
+    public void AssignLeaveBalanceToNewUser(User user){
+        List<LeavePolicy> leavePolicies= leavePolicyRepository.findAll();
+
+        for (LeavePolicy policy: leavePolicies){
+            if (policy.getLeaveType()== LeaveType.MATERNITY && !user.getGender().equals(Gender.FEMALE)){
+                continue;
+            }
+            if (policy.getLeaveType()==LeaveType.PATERNITY && !user.getGender().equals(Gender.MALE)){
+                continue;
+            }
+
+            LeaveBalance leaveBalance=new LeaveBalance();
+
+            leaveBalance.setUser(user);
+            leaveBalance.setTotalBalance(policy.getYearlyLimit());
+            leaveBalance.setRemainingBalance(policy.getYearlyLimit());
+            leaveBalance.setLeaveType(policy.getLeaveType());
+            leaveBalance.setPolicy(policy);
+
+            leaveBalanceRepository.save(leaveBalance);
+            user.addLeaveBalance(leaveBalance);
+
+        }
+    }
+
+
     @Override
     public UserResponseDto updateUser(Long id, UserStatus userStatus, String roleName) {
         User user = userRepository.findById(id).orElseThrow(()->{
@@ -70,6 +105,7 @@ public class UserServiceImpl implements UserService{
             user.setRole(role);
             User newUser=getApprovingHr();
             user.setHr(newUser);
+            AssignLeaveBalanceToNewUser(user);
         }
 
         userRepository.save(user);
