@@ -64,4 +64,19 @@ public class UserTestController {
         return ResponseEntity.ok("Manager assigned");
     }
 
+//    Get All Managers mapped to HR
+    @GetMapping("/hr/{hrId}/managers")
+    public ResponseEntity<List<UserResponseDto>> getAllManagersUnderHR(@PathVariable Long hrId){
+        List<UserResponseDto> userResponseDtos = userService.getAllManagersUnderHr(hrId);
+
+        return ResponseEntity.ok(userResponseDtos);
+    }
+
+    //    Get All Employees mapped to HR
+    @GetMapping("/hr/{hrId}/employees")
+    public ResponseEntity<List<UserResponseDto>> getAllEmployeesUnderHR(@PathVariable Long hrId){
+        List<UserResponseDto> userResponseDtos = userService.getAllEmployeesUnderHr(hrId);
+
+        return ResponseEntity.ok(userResponseDtos);
+    }
 }

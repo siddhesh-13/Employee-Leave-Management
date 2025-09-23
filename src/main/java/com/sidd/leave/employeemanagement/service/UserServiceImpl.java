@@ -99,5 +99,33 @@ public class UserServiceImpl implements UserService{
 
     }
 
+    //    Get all managers under HR
+    @Override
+    public List<UserResponseDto> getAllManagersUnderHr(Long hrId) {
+
+        Role role = roleRepository.findByRoleName("ROLE_MANAGER").orElseThrow(()->{
+            return new RuntimeException("Role not found");
+        });
+
+        List<User> users= userRepository.findByHrIdAndRoleId(hrId, role.getId());
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
+    //    Get all employees under HR
+    @Override
+    public List<UserResponseDto> getAllEmployeesUnderHr(Long hrId) {
+
+        Role role = roleRepository.findByRoleName("ROLE_EMPLOYEE").orElseThrow(()->{
+            return new RuntimeException("Role not found");
+        });
+
+        List<User> users= userRepository.findByHrIdAndRoleId(hrId, role.getId());
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
 
 }

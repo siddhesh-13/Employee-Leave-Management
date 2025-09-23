@@ -17,4 +17,10 @@ public interface UserService {
     UserResponseDto updateUser(Long id, UserStatus userStatus, String roleName);
 
     void assignManager(Long userId, Long managerId);
+
+//    Get all managers under HR
+    List<UserResponseDto> getAllManagersUnderHr(Long hrId);
+
+    //    Get all employees under HR
+    List<UserResponseDto> getAllEmployeesUnderHr(Long hrId);
 }
