@@ -32,7 +32,9 @@ public class SecurityConfig {
                         .requestMatchers("/user/profile").authenticated()
                         .requestMatchers("/user/pending").hasAnyRole("SUPERHR" ,"HR")
                         .requestMatchers("/user/update/{id}").hasAnyRole("SUPERHR" ,"HR")
-                        .requestMatchers("/user/{userId}/assign-manager").hasAnyRole("SUPERHR" ,"HR")
+                        .requestMatchers("/user/hr/{hrId}/managers").hasAnyRole("SUPERHR" ,"HR")
+                        .requestMatchers("/user/hr/{hrId}/employees").hasAnyRole("SUPERHR" ,"HR")
+                        .requestMatchers("/user/managers/{managerId}/employees").hasAnyRole("MANAGER")
                         .anyRequest().permitAll());
 
         return httpSecurity.build();

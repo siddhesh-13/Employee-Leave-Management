@@ -19,4 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 // Get All managers or employees under HR
     List<User> findByHrIdAndRoleId(Long hrId, int roleId);
 
+    // Get All employees under manager
+    List<User> findByManagerId(Long managerId);
+
 }

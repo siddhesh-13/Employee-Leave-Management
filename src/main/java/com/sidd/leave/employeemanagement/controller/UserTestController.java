@@ -79,4 +79,13 @@ public class UserTestController {
 
         return ResponseEntity.ok(userResponseDtos);
     }
+
+    //    Get All Employees mapped to manager
+    @GetMapping("/managers/{managerId}/employees")
+    public ResponseEntity<List<UserResponseDto>> getAllEmployeesUnderManager(@PathVariable Long managerId){
+        List<UserResponseDto> userResponseDtos= userService.getAllEmployeesUnderManager(managerId);
+
+        return ResponseEntity.ok(userResponseDtos);
+    }
+
 }

@@ -127,5 +127,15 @@ public class UserServiceImpl implements UserService{
                 .collect(Collectors.toList());
     }
 
+    //    Get all employees under manager
+    @Override
+    public List<UserResponseDto> getAllEmployeesUnderManager(Long managerId) {
+        List<User> users= userRepository.findByManagerId(managerId);
+
+        return users.stream()
+                .map(user -> modelMapper.map(user, UserResponseDto.class))
+                .collect(Collectors.toList());
+    }
+
 
 }
