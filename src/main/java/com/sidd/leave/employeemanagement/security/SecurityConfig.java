@@ -29,6 +29,7 @@ public class SecurityConfig {
         httpSecurity.csrf(csrf -> csrf.disable())
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/").permitAll()
                         .requestMatchers("/user/profile").authenticated()
                         .requestMatchers("/user/pending").hasAnyRole("SUPERHR" ,"HR")
                         .requestMatchers("/user/update/{id}").hasAnyRole("SUPERHR" ,"HR")

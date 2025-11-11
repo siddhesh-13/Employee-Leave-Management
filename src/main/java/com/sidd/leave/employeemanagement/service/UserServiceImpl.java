@@ -172,6 +172,5 @@ public class UserServiceImpl implements UserService{
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
     }
-
-
+    
 }
