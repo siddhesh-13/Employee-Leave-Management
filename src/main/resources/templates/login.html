@@ -15,24 +15,34 @@
         </div>
     </nav>
 
-    <div class="container border border-primary w-50 my-5 p-3 ">
+    <div class="container border border-primary rounded w-50 my-5 p-3 " style="max-width:600px;">
 
         <div class="row text-center">
-            <h3 > Login Here </h3>
+            <h3 style="color:#0d6efd;"> Login Here </h3>
         </div>
         <div class="row">
             <form class="form my-5 p-3 ">
                 <div class="mb-3 ">
-                    <label class="form-label">Email address</label>
+                    <label class="form-label" >Email address</label>
                     <input type="email" class="form-control" >
                 </div>
                 <div class="mb-3 ">
-                    <label class="form-label">Password</label>
+                    <label class="form-label" > Password</label>
                     <input type="password" class="form-control" >
                 </div>
 
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>
+        </div>
+<!--        <p>If not registered? </p>-->
+<!--        <a th:href="register">Register here</a>-->
+        <div class="row ">
+            <div class="column col-md-3 ">
+                <p>If not registered? </p>
+            </div>
+            <div class="column col-md-9 ">
+                <a th:href="@{/register}">Register here</a>
+            </div>
         </div>
     </div>
 
