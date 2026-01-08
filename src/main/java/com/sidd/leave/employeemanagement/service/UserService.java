@@ -26,4 +26,7 @@ public interface UserService {
 
     //    Get all employees under manager
     List<UserResponseDto> getAllEmployeesUnderManager(Long managerId);
+
+    //Get Users By Id
+    UserResponseDto getUserByUserId(Long userId);
 }

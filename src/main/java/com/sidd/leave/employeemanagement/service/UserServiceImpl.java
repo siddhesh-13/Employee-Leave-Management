@@ -9,6 +9,7 @@ import com.sidd.leave.employeemanagement.entity.User;
 import com.sidd.leave.employeemanagement.enums.Gender;
 import com.sidd.leave.employeemanagement.enums.LeaveType;
 import com.sidd.leave.employeemanagement.enums.UserStatus;
+import com.sidd.leave.employeemanagement.exception.UserNotFoundException;
 import com.sidd.leave.employeemanagement.repository.LeaveBalanceRepository;
 import com.sidd.leave.employeemanagement.repository.LeavePolicyRepository;
 import com.sidd.leave.employeemanagement.repository.RoleRepository;
@@ -17,7 +18,7 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+//import org.springframework.security.core.userdetails.UserNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +60,7 @@ public class UserServiceImpl implements UserService{
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email=auth.getName();
         return userRepository.findByEmail(email).orElseThrow(() ->{
-            return new UsernameNotFoundException("Approver not found");
+            return new UserNotFoundException("Approver not found");
         });
     }
 
@@ -93,7 +94,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public UserResponseDto updateUser(Long id, UserStatus userStatus, String roleName) {
         User user = userRepository.findById(id).orElseThrow(()->{
-            return new UsernameNotFoundException("User not found");
+            return new UserNotFoundException("User doesn't exists");
         });
 
         user.setUserStatus(userStatus);
@@ -118,14 +119,14 @@ public class UserServiceImpl implements UserService{
     public void assignManager(Long userId, Long managerId) {
 
         User user= userRepository.findById(userId).orElseThrow(()->{
-            return new UsernameNotFoundException("User not found");
+            return new UserNotFoundException("User doesn't exists");
         });
 
         Role role= roleRepository.findById(4).orElseThrow();
 
         if (user.getUserStatus().equals(UserStatus.ACTIVE) && user.getManager()==null && user.getRole().equals(role)){
             User manager= userRepository.findById(managerId).orElseThrow(()->{
-                return new UsernameNotFoundException("user not found");
+                return new UserNotFoundException("User doesn't exists");
             });
 
             user.setManager(manager);
@@ -172,5 +173,15 @@ public class UserServiceImpl implements UserService{
                 .map(user -> modelMapper.map(user, UserResponseDto.class))
                 .collect(Collectors.toList());
     }
-    
+
+    @Override
+    public UserResponseDto getUserByUserId(Long userId) {
+        User user=userRepository.findById(userId).orElseThrow(()-> {
+                    return new UserNotFoundException("User doesn't exists");
+                });
+
+        return modelMapper.map(user, UserResponseDto.class);
+    }
+
+
 }

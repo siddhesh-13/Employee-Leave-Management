@@ -30,6 +30,8 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/authenticate").authenticated()
+                        .requestMatchers("/user/{userId}").authenticated()
                         .requestMatchers("/user/profile").authenticated()
                         .requestMatchers("/user/pending").hasAnyRole("SUPERHR" ,"HR")
                         .requestMatchers("/user/update/{id}").hasAnyRole("SUPERHR" ,"HR")
@@ -51,6 +53,5 @@ public class SecurityConfig {
 
         return new ProviderManager(daoAuthenticationProvider);
     }
-
 
 }

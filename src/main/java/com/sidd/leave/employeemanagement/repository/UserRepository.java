@@ -16,7 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     List<User> findByUserStatus(UserStatus userStatus);
 
-// Get All managers or employees under HR
+    // Get All managers or employees under HR
     List<User> findByHrIdAndRoleId(Long hrId, int roleId);
 
     // Get All employees under manager

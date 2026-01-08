@@ -88,4 +88,10 @@ public class UserTestController {
         return ResponseEntity.ok(userResponseDtos);
     }
 
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long userId){
+        UserResponseDto userResponseDto=userService.getUserByUserId(userId);
+        return ResponseEntity.ok(userResponseDto);
+    }
+
 }
